@@ -1,2 +1,2 @@
 # pc2validator
-Sample judge script for PC^2 judge system
+Sample judge scripts for PC^2 judge system
