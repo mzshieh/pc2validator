@@ -64,4 +64,4 @@ else:
 result = open(sys.argv[4],'w')
 print(verdict,file=result)
 result.close()
-print(verdict)
+print(verdict[:-1].split('>')[-1].split('<')[0].strip())
