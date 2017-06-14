@@ -52,7 +52,6 @@ else:
     run_env += ['./'+sys.argv[2].split('/')[-1]]+sys.argv[3:]
 limits = proc_limit + time_limit + space_limit + mem_limit
 run_code = isolate+limits+io+run_env
-print(run_code)
 
 ## clean up
 null = open('/dev/null','w')
