@@ -68,4 +68,4 @@ print(verdict,file=result)
 result.close()
 print(verdict[:-1].split('>')[-1].split('<')[0].strip())
 for line in open('SANDBOX_RESULT'):
-    print(line.strip)
+    print(line.strip())
