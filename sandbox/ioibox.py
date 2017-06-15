@@ -3,6 +3,7 @@
 import sys, os
 from random import randint as ri
 from subprocess import run
+from shlex import quote
 
 ## initialize the filenames
 
@@ -83,9 +84,9 @@ else:
     box_path = box_path[:-1] + '/box'
     if MODE == 'java':
         for name in filter(lambda x: x.endswith('.class'), os.listdir()):
-            os.system('cp "{}" {}'.format(name,box_path))
+            os.system('cp {} {}'.format(quote(name),box_path))
     else:
-        os.system('cp "{}" {}'.format(sys.argv[2],box_path))
+        os.system('cp {} {}'.format(quote(sys.argv[2]),box_path))
     os.system('mv {} {}'.format(TEST_INPUT,box_path))
     exitcode = run(run_code,stderr=result).returncode
     run(['/usr/bin/env','head','--bytes={}'.format(1024*SPACE_LIMIT),box_path+'/'+USR_OUTPUT])
