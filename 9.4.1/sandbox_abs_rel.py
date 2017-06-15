@@ -17,7 +17,7 @@ def raiseIfInvalid(IN, OUT, ANS):
         raise 
     for ans, out in zip(ANS,OUT):
         ans, out = ans.split(), out.split()
-        if len(ans) != len(out) or any(far(float(x),float(y))) for x, y in zip(ans,out)):
+        if len(ans) != len(out) or any(far(float(x),float(y)) for x, y in zip(ans,out)):
             ## NOT OK
             raise
 
