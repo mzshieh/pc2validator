@@ -1,18 +1,25 @@
 #!/usr/bin/env python3
 import sys, os
+from math import fabs
 
 TIME_LIMIT = 10.0 if len(sys.argv)<6 else float(sys.argv[5])
+EPS = 5e-7 if len(sys.argv) < 7 else float(sys.argv[6])
 
 verdict = '<?xml version="1.0"?><result outcome="%s" security="'
 verdict += sys.argv[4]
 verdict +='"> %s </result>'
 
+def far(x,y):
+    return fabs(x-y) > EPS
+
 def raiseIfInvalid(IN, OUT, ANS):
     if len(ANS) != len(OUT): ## must have same number of lines
         raise 
-    if any(ans != out for ans, out in zip(ANS,OUT)):
-        ## NOT OK
-        raise
+    for ans, out in zip(ANS,OUT):
+        ans, out = ans.split(), out.split()
+        if len(ans) != len(out) or any(far(float(x),float(y))) for x, y in zip(ans,out)):
+            ## NOT OK
+            raise
 
 def isAC():
     try:
