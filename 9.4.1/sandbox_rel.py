@@ -59,7 +59,7 @@ elif isTLE():
 elif isRE():
     verdict %= ('No - Run-time Error',)*2
 elif isAC():
-    verdict %= ('Yes',)*2
+    verdict %= ('accepted','Yes')
 else:
     verdict %= ('No - Wrong Answer',)*2
 
@@ -67,3 +67,5 @@ result = open(sys.argv[4],'w')
 print(verdict,file=result)
 result.close()
 print(verdict[:-1].split('>')[-1].split('<')[0].strip())
+for line in open('SANDBOX_RESULT'):
+    print(line.strip)
