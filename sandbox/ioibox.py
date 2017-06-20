@@ -14,6 +14,18 @@ RESULT_FILE = 'SANDBOX_VERDICT'
 USR_OUTPUT = 'SANDBOX_OUTPUT_%016X'%ri(0,2**64-1)
 USR_ERROR = 'SANDBOX_ERROR_%016X'%ri(0,2**64-1)
 TEST_INPUT = 'SANDBOX_INPUT_%016X'%ri(0,2**64-1)
+BOX_ID = ri(0,999)
+
+## Use a specified box
+try:
+    if sys.argv[1].startswith('-b='):
+        BOX_ID = int(sys.argv[1][3:])
+        sys.argv.pop(1)
+    if BOX_ID < 0 or BOX_ID > 999:
+        raise
+except:
+    print('BOX_ID must be between 0 and 999.',sys.stderr)
+    sys.exit(1)
 
 ## parameters
 
@@ -30,7 +42,7 @@ for line in sys.stdin:
 test_input.close()
 
 ## Setup the parameters for isolate
-isolate = ['isolate','--cg']
+isolate = ['isolate','--box={}'.format(BOX_ID),'--cg']
 time_limit = ['--time={}'.format(TIME_LIMIT)]
 time_limit+= ['--wall-time={}'.format(2*TIME_LIMIT),'--extra-time=5']
 space_limit = ['--fsize={}'.format(SPACE_LIMIT)]
@@ -39,7 +51,10 @@ proc_limit = ['--processes=4']
 io = ['--stdin='+TEST_INPUT,'--stdout='+USR_OUTPUT,'--stderr='+USR_ERROR]
 io+= ['--meta='+RUN_META]
 run_env = ['-e','--run']
-if MODE == 'java':
+if MODE == '':
+    print('Usage: ioibox [-b=BOX_ID] [exec cmd|java CLASS|python2 code.py|python3 code .py]',file=sys.stderr) 
+    sys.exit(1)
+elif MODE == 'java':
     mem_limit = []
     proc_limit = ['-p']
     run_env += ['/usr/bin/env','--']
@@ -90,5 +105,15 @@ else:
     os.system('mv {} {}'.format(TEST_INPUT,box_path))
     exitcode = run(run_code,stderr=result).returncode
     run(['/usr/bin/env','head','--bytes={}'.format(1024*SPACE_LIMIT),box_path+'/'+USR_OUTPUT])
+    os.mkdir('SANDBOX')
+    os.system('cp -r {} SANDBOX'.format(box_path))
 result.close()
+
+## clean up
+null = open('/dev/null','w')
+cleanup = isolate + ['--cleanup']
+while run(cleanup,stderr=null).returncode==0:
+    pass
+null.close()
+
 sys.exit(exitcode)
