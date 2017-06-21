@@ -17,6 +17,7 @@ for i in range(BOX):
     if pid == 0:
         os.chdir('r{:03d}'.format(i))
         os.system('cp ../{} .'.format(sys.argv[1]))
+        os.system('cp ../{} .'.format(sys.argv[2]))
         os.system('ioibox -b={} python3 {} < {} > SANDBOX_OUTPUT'
                   .format(i,sys.argv[1],sys.argv[2]))
         break
