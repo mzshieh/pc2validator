@@ -101,6 +101,10 @@ with open(VERDICT,'wt') as verdict:
         exitcode = run(execute,stderr=verdict)
         ### Dump the output to stdout
         run(['/usr/bin/env','head','--bytes={}'.format(size_limit*1024),box_path+'/'+OUTPUT])
+        ### Dump the error to stderr
+        with open(box_path+'/'+ERROR,'rt') as err:
+            for line in err:
+                print(line.rstrip(),file=sys.stderr)
         ### Dump the files from the sandbox to current directory
         if dump:
             os.system('cp -rn {}/* .'.format(box_path))
