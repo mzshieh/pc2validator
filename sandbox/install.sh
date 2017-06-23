@@ -1,2 +1,2 @@
 #!/bin/sh
-install -D ioibox.py /usr/local/bin/ioibox
+install -D pc2box.py /usr/local/bin/pc2box
