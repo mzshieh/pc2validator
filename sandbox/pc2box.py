@@ -19,7 +19,7 @@ parser.add_argument('-d','--dump',type=lambda x: x in ['T','t','True','true'],
                     default=False, help='Dump all files out (default: %(default)s)')
 parser.add_argument('-u','--use-stdin',type=lambda x: x in ['T','t','True','true'],
                     default=True, 
-                    help='Specify if it doesn\'t stdin (default: %(default)s)')
+                    help='False if it doesn\'t stdin (default: %(default)s)')
 parser.add_argument('cmd',help='Command to execute the program')
 parser.add_argument('arguments',nargs=argparse.REMAINDER,help='Arguments')
 
@@ -33,8 +33,6 @@ cmd = res.cmd
 arg = res.arguments
 dump = res.dump
 use_stdin = res.use_stdin
-print(res)
-sys.exit(0)
 
 ### Setup the default file names
 RESULT = 'SANDBOX_RESULT'
