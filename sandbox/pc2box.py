@@ -112,3 +112,5 @@ with open(VERDICT,'wt') as verdict:
 ### Clean up
 with open('/dev/null','wt'):
     run(isolate+['--cleanup'])
+
+sys.exit(exitcode)

@@ -91,7 +91,7 @@ elif isAC():
 else:
     verdict %= ('No - Wrong Answer',)*2
 
-with open(args.verdict,'rt') as result:
+with open(args.verdict,'wt') as result:
     print(verdict,file=result)
 
 print(verdict[:-1].split('>')[-1].split('<')[0].strip())
