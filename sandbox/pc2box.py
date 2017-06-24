@@ -53,10 +53,9 @@ if cmd == 'java':
     # Potentially buggy
     arg = [tok for tok in arg if not re.match('-Xmx.*|-Xms.*|-Xss.*',tok)]
     arg = '-Xmx{}k -Xms{}k -Xss{}k'.format(*((mem_limit,)*3)).split() + arg
-    execute = isolate + io + limit + run_env[:2] + [cmd,'--'] + arg
 else:
     limit+= ['--cg-mem={}'.format(mem_limit),'--mem={}'.format(mem_limit)]
-    execute = isolate + io + limit + run_env + [cmd] + arg
+execute = isolate + io + limit + run_env + [cmd] + arg
 ### Print debug
 # print(' '.join(isolate))
 
