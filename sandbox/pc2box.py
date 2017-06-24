@@ -53,9 +53,10 @@ if cmd == 'java':
     # Potentially buggy
     arg = [tok for tok in arg if not re.match('-Xmx.*|-Xms.*|-Xss.*',tok)]
     arg = '-Xmx{}k -Xms{}k -Xss{}k'.format(*((mem_limit,)*3)).split() + arg
+    execute = isolate + io + limit + run_env[:2] + [cmd,'--'] + arg
 else:
     limit+= ['--cg-mem={}'.format(mem_limit),'--mem={}'.format(mem_limit)]
-execute = isolate + io + limit + run_env + [cmd] + arg
+    execute = isolate + io + limit + run_env + [cmd] + arg
 ### Print debug
 # print(' '.join(isolate))
 
@@ -102,7 +103,7 @@ with open(VERDICT,'wt') as verdict:
         ### Dump the output to stdout
         run(['/usr/bin/env','head','--bytes={}'.format(size_limit*1024),box_path+'/'+OUTPUT])
         ### Dump the error to stderr
-        with open(box_path+'/'+ERROR,'rt') as err:
+        with open(box_path+'/'+ERROR,'wt') as err:
             for line in err:
                 print(line.rstrip(),file=sys.stderr)
         ### Dump the files from the sandbox to current directory
