@@ -98,7 +98,7 @@ with open(VERDICT,'wt') as verdict:
                 for line in sys.stdin:
                     print(line.rstrip(),file=stdin)
         ### Run and get exitcode
-        exitcode = run(execute,stderr=verdict)
+        exitcode = run(execute,stderr=verdict).returncode
         ### Dump the output to stdout
         run(['/usr/bin/env','head','--bytes={}'.format(size_limit*1024),box_path+'/'+OUTPUT])
         ### Dump the error to stderr
