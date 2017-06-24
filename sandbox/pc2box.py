@@ -103,7 +103,7 @@ with open(VERDICT,'wt') as verdict:
         ### Dump the output to stdout
         run(['/usr/bin/env','head','--bytes={}'.format(size_limit*1024),box_path+'/'+OUTPUT])
         ### Dump the error to stderr
-        with open(box_path+'/'+ERROR,'wt') as err:
+        with open(box_path+'/'+ERROR,'rt') as err:
             for line in err:
                 print(line.rstrip(),file=sys.stderr)
         ### Dump the files from the sandbox to current directory
