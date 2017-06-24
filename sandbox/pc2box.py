@@ -96,7 +96,7 @@ with open(VERDICT,'wt') as verdict:
         with open(box_path+'/'+INPUT,'wt') as stdin:
             if use_stdin:
                 for line in sys.stdin:
-                    print(line,file=stdin)
+                    print(line.rstrip(),file=stdin)
         ### Run and get exitcode
         exitcode = run(execute,stderr=verdict)
         ### Dump the output to stdout
