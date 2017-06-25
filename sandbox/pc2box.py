@@ -99,15 +99,18 @@ with open(VERDICT,'wt') as verdict:
                     print(line.rstrip(),file=stdin)
         ### Run and get exitcode
         exitcode = run(execute,stderr=verdict).returncode
-        ### Dump the output to stdout
-        run(['/usr/bin/env','head','--bytes={}'.format(size_limit*1024),box_path+'/'+OUTPUT])
-        ### Dump the error to stderr
-        with open(box_path+'/'+ERROR,'rt') as err:
-            for line in err:
-                print(line.rstrip(),file=sys.stderr)
-        ### Dump the files from the sandbox to current directory
-        if dump:
-            os.system('cp -rn {}/* .'.format(box_path))
+        if exitcode > 1:
+            print('Sandbox internal error',file=sys.stderr)
+        else:
+            ### Dump the output to stdout
+            run(['/usr/bin/env','head','--bytes={}'.format(size_limit*1024),box_path+'/'+OUTPUT])
+            ### Dump the error to stderr
+            with open(box_path+'/'+ERROR,'rt') as err:
+                for line in err:
+                    print(line.rstrip(),file=sys.stderr)
+            ### Dump the files from the sandbox to current directory
+            if dump:
+                os.system('cp -rn {}/* .'.format(box_path))
 
 ### Clean up
 with open('/dev/null','wt'):
