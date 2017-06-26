@@ -4,17 +4,18 @@ from random import randint as ri
 from subprocess import run
 from shlex import quote
 from shutil import copy
+from math import ceil
 
 ### Setup argument parser
 parser = argparse.ArgumentParser(description='Run a program in an isolate sandbox.')
 parser.add_argument('-i','--id',type=int,default=ri(0,999),
                     help='Run in box ID [0,999] (default: random)')
-parser.add_argument('-m','--mem',type=int,default=524288,
-                    help='Memory limit in kilobytes (default: %(default)s)')
+parser.add_argument('-m','--mem',type=float,default=512.0,
+                    help='Memory limit in megabytes (default: %(default)s)')
 parser.add_argument('-t','--time',type=float,default=10.0,
                     help='Time limit in seconds (default: %(default)s)')
-parser.add_argument('-s','--size',type=int,default=1024,
-                    help='Output size limit in kilobytes (default: %(default)s)')
+parser.add_argument('-s','--size',type=float,default=1.0,
+                    help='Output size limit in megabytes (default: %(default)s)')
 parser.add_argument('-d','--dump',type=lambda x: x in ['T','t','True','true'],
                     default=False, help='Dump all files out (default: %(default)s)')
 parser.add_argument('-u','--use-stdin',type=lambda x: x in ['T','t','True','true'],
@@ -26,9 +27,9 @@ parser.add_argument('arguments',nargs=argparse.REMAINDER,help='Arguments')
 ### Parsing the arguments
 res = parser.parse_args()
 box_id = res.id
-mem_limit = res.mem
+mem_limit = ceil(res.mem*1024)   # isolate uses kilobytes
 time_limit = res.time
-size_limit = res.size
+size_limit = ceil(res.size*1024) # isolate uses kilobytes
 cmd = res.cmd
 arg = res.arguments
 dump = res.dump
